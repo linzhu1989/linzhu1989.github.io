@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" font-family="PingFang SC, Avenir Next, Helvetica Neue, Segoe UI, sans-serif">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7f8a84"/></marker>
+  <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#a13333"/></marker>
+  <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0e7a4d"/></marker></defs>
+  <rect width="1200" height="400" fill="#fbfbf9"/>
+  <text x="300" y="44" text-anchor="middle" font-size="13" letter-spacing="2" fill="#a13333" font-weight="600">之前 · 大家共用一个工作区</text>
+  <g font-size="13" fill="#182420" text-anchor="middle">
+    <rect x="70" y="70" width="200" height="54" rx="10" fill="#182420"/><text x="170" y="93" fill="#fff" font-weight="600">会话 A · 照片</text><text x="170" y="112" fill="#cfd8d3" font-size="12">改了一半，没提交</text>
+    <rect x="330" y="70" width="200" height="54" rx="10" fill="#182420"/><text x="430" y="93" fill="#fff" font-weight="600">会话 B · 博客</text><text x="430" y="112" fill="#cfd8d3" font-size="12">改完了，准备提交</text>
+    <rect x="130" y="166" width="340" height="70" rx="10" fill="#ffffff" stroke="#c9d0cb"/><text x="300" y="192" font-weight="600">工作区</text><text x="300" y="214" fill="#44524c" font-size="12">photos/（A 的改动）· blog/（B 的改动）</text>
+    <path d="M170 126 v38" stroke="#7f8a84" stroke-width="1.6" marker-end="url(#a)"/>
+    <path d="M430 126 v38" stroke="#7f8a84" stroke-width="1.6" marker-end="url(#a)"/>
+    <rect x="130" y="276" width="340" height="60" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="2"/><text x="300" y="300" fill="#a13333" font-weight="700" font-family="ui-monospace, SF Mono, Menlo, monospace" font-size="12.5">git add -A · "blog: new post"</text><text x="300" y="320" fill="#a13333" font-size="12">把 A 改了一半的照片也带进去了</text>
+    <path d="M300 238 v36" stroke="#a13333" stroke-width="1.6" marker-end="url(#r)"/>
+  </g>
+  <text x="300" y="370" text-anchor="middle" font-size="12.5" fill="#7f8a84">B 不知道有 A，只看到一堆「改动」</text>
+  <line x1="600" y1="40" x2="600" y2="360" stroke="#e4e8e4"/>
+  <text x="900" y="44" text-anchor="middle" font-size="13" letter-spacing="2" fill="#0e7a4d" font-weight="600">之后 · 先认领，各走各的</text>
+  <g font-size="13" fill="#182420" text-anchor="middle">
+    <rect x="660" y="70" width="480" height="54" rx="10" fill="#e3f2ea" stroke="#0e7a4d" stroke-width="2"/><text x="900" y="93" font-weight="700" fill="#0e7a4d">INDEX.md（已 push）</text><text x="900" y="112" fill="#44524c" font-size="12">照片：A 已认领 · 博客：B 已认领 · 其余空闲</text>
+    <rect x="660" y="166" width="220" height="70" rx="10" fill="#182420"/><text x="770" y="192" fill="#fff" font-weight="600">会话 A</text><text x="770" y="214" fill="#cfd8d3" font-size="12">只改 photos/</text>
+    <rect x="920" y="166" width="220" height="70" rx="10" fill="#182420"/><text x="1030" y="192" fill="#fff" font-weight="600">会话 B</text><text x="1030" y="214" fill="#cfd8d3" font-size="12">只改 blog/</text>
+    <path d="M770 164 v-38" stroke="#0e7a4d" stroke-width="1.6" marker-end="url(#g)"/>
+    <path d="M1030 164 v-38" stroke="#0e7a4d" stroke-width="1.6" marker-end="url(#g)"/>
+    <rect x="660" y="276" width="220" height="60" rx="10" fill="#faf0da" stroke="#a06b12"/><text x="770" y="300" font-weight="600">A 的改动原样留着</text><text x="770" y="320" fill="#44524c" font-size="12">B 报告一声，不碰</text>
+    <rect x="920" y="276" width="220" height="60" rx="10" fill="#ffffff" stroke="#0e7a4d"/><text x="1030" y="300" font-weight="600" font-family="ui-monospace, SF Mono, Menlo, monospace" font-size="12">git add topics/blog/</text><text x="1030" y="320" fill="#44524c" font-size="12">提交里只有博客的改动</text>
+    <path d="M1030 238 v36" stroke="#0e7a4d" stroke-width="1.6" marker-end="url(#g)"/>
+  </g>
+  <text x="900" y="370" text-anchor="middle" font-size="12.5" fill="#7f8a84">会话之间还是互相看不见，但已经不需要看见</text>
+</svg>

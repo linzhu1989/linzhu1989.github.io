@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 486" font-family="PingFang SC, Avenir Next, Helvetica Neue, Segoe UI, sans-serif">
+<rect width="1200" height="486" fill="#fbfbf9"/>
+<g font-size="13" letter-spacing="2" font-weight="600" text-anchor="middle">
+<text x="270" y="50" fill="#0e7a4d">AGENT 实际做的</text>
+<text x="700" y="50" fill="#a13333">评分器检查的</text>
+<text x="1030" y="50" fill="#182420">为什么没过</text></g>
+<g font-size="13" fill="#182420" text-anchor="middle">
+<rect x="70" y="80" width="400" height="66" rx="10" fill="#e3f2ea" stroke="#0e7a4d" stroke-width="1.6"/><text x="270" y="108" font-weight="600">用了真实用户的邮箱</text><text x="270" y="128" fill="#44524c" font-size="12">「发到你自己的邮箱」</text>
+<rect x="510" y="80" width="380" height="66" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="1.6"/><text x="700" y="108" font-weight="700" fill="#a13333">测试数据里的示例邮箱</text><text x="700" y="128" fill="#44524c" font-size="12">正则 · 精确匹配</text>
+<path d="M472 113 h36" stroke="#a13333" stroke-width="1.6" stroke-dasharray="4 4"/>
+<text x="1030" y="108" font-weight="700" fill="#a13333" font-size="12.5">评分器的问题</text><text x="1030" y="128" fill="#44524c" font-size="12">harness 是以真实用户身份运行的</text>
+<rect x="70" y="172" width="400" height="66" rx="10" fill="#e3f2ea" stroke="#0e7a4d" stroke-width="1.6"/><text x="270" y="200" font-weight="600">工具服务器在（是 mock）</text><text x="270" y="220" fill="#44524c" font-size="12">如实说了</text>
+<rect x="510" y="172" width="380" height="66" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="1.6"/><text x="700" y="200" font-weight="700" fill="#a13333">「工具服务器不可用」</text><text x="700" y="220" fill="#44524c" font-size="12">评委的评分标准</text>
+<path d="M472 205 h36" stroke="#a13333" stroke-width="1.6" stroke-dasharray="4 4"/>
+<text x="1030" y="200" font-weight="700" fill="#a13333" font-size="12.5">评分器的问题</text><text x="1030" y="220" fill="#44524c" font-size="12">照生产环境写的，不是照 harness</text>
+<rect x="70" y="264" width="400" height="66" rx="10" fill="#e3f2ea" stroke="#0e7a4d" stroke-width="1.6"/><text x="270" y="292" font-weight="600">回复里有「Draft」</text><text x="270" y="312" fill="#44524c" font-size="12">大小写都可能</text>
+<rect x="510" y="264" width="380" height="66" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="1.6"/><text x="700" y="292" font-weight="700" fill="#a13333" font-family="ui-monospace, SF Mono, Menlo, monospace">(?i)draft</text><text x="700" y="312" fill="#44524c" font-size="12">只有 Python 认的正则</text>
+<path d="M472 297 h36" stroke="#a13333" stroke-width="1.6" stroke-dasharray="4 4"/>
+<text x="1030" y="292" font-weight="700" fill="#a13333" font-size="12.5">评分器的问题</text><text x="1030" y="312" fill="#44524c" font-size="12">JS harness 每次都报错</text>
+<rect x="70" y="356" width="400" height="66" rx="10" fill="#e3f2ea" stroke="#0e7a4d" stroke-width="1.6"/><text x="270" y="384" font-weight="600">该有的信息都有</text><text x="270" y="404" fill="#44524c" font-size="12">最大模型的回复</text>
+<rect x="510" y="356" width="380" height="66" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="1.6"/><text x="700" y="384" font-weight="700" fill="#a13333">六条全有才算过</text><text x="700" y="404" fill="#44524c" font-size="12">长标准 · 小模型当评委</text>
+<path d="M472 389 h36" stroke="#a13333" stroke-width="1.6" stroke-dasharray="4 4"/>
+<text x="1030" y="384" font-weight="700" fill="#a13333" font-size="12.5">评分器的问题</text><text x="1030" y="404" fill="#44524c" font-size="12">同一个回复：不过，不过，过</text>
+</g>
+<text x="600" y="462" text-anchor="middle" font-size="12.5" fill="#7f8a84">四处对不上，Agent 每一处都是对的，transcript 里早就看得出来</text>
+</svg>

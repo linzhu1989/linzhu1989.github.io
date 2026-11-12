@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 486" font-family="Avenir Next, Helvetica Neue, Segoe UI, sans-serif">
+<rect width="1200" height="486" fill="#fbfbf9"/>
+<g font-size="13" letter-spacing="2" font-weight="600" text-anchor="middle">
+<text x="270" y="50" fill="#0e7a4d">WHAT THE AGENT DID</text>
+<text x="700" y="50" fill="#a13333">WHAT THE GRADER CHECKED</text>
+<text x="1030" y="50" fill="#182420">WHY IT FAILED</text></g>
+<g font-size="13" fill="#182420" text-anchor="middle">
+<rect x="70" y="80" width="400" height="66" rx="10" fill="#e3f2ea" stroke="#0e7a4d" stroke-width="1.6"/><text x="270" y="108" font-weight="600">used the real user&#39;s address</text><text x="270" y="128" fill="#44524c" font-size="12">"your own address"</text>
+<rect x="510" y="80" width="380" height="66" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="1.6"/><text x="700" y="108" font-weight="700" fill="#a13333">the fixture&#39;s example address</text><text x="700" y="128" fill="#44524c" font-size="12">regex · exact match</text>
+<path d="M472 113 h36" stroke="#a13333" stroke-width="1.6" stroke-dasharray="4 4"/>
+<text x="1030" y="108" font-weight="700" fill="#a13333" font-size="12.5">grader fault</text><text x="1030" y="128" fill="#44524c" font-size="12">harness runs as the real user</text>
+<rect x="70" y="172" width="400" height="66" rx="10" fill="#e3f2ea" stroke="#0e7a4d" stroke-width="1.6"/><text x="270" y="200" font-weight="600">tool server present (as a mock)</text><text x="270" y="220" fill="#44524c" font-size="12">said so, correctly</text>
+<rect x="510" y="172" width="380" height="66" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="1.6"/><text x="700" y="200" font-weight="700" fill="#a13333">"tool server not available"</text><text x="700" y="220" fill="#44524c" font-size="12">judge rubric</text>
+<path d="M472 205 h36" stroke="#a13333" stroke-width="1.6" stroke-dasharray="4 4"/>
+<text x="1030" y="200" font-weight="700" fill="#a13333" font-size="12.5">grader fault</text><text x="1030" y="220" fill="#44524c" font-size="12">written for production, not the harness</text>
+<rect x="70" y="264" width="400" height="66" rx="10" fill="#e3f2ea" stroke="#0e7a4d" stroke-width="1.6"/><text x="270" y="292" font-weight="600">answer contains "Draft"</text><text x="270" y="312" fill="#44524c" font-size="12">any case</text>
+<rect x="510" y="264" width="380" height="66" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="1.6"/><text x="700" y="292" font-weight="700" fill="#a13333" font-family="ui-monospace, SF Mono, Menlo, monospace">(?i)draft</text><text x="700" y="312" fill="#44524c" font-size="12">Python-only regex</text>
+<path d="M472 297 h36" stroke="#a13333" stroke-width="1.6" stroke-dasharray="4 4"/>
+<text x="1030" y="292" font-weight="700" fill="#a13333" font-size="12.5">grader fault</text><text x="1030" y="312" fill="#44524c" font-size="12">JavaScript harness throws on every run</text>
+<rect x="70" y="356" width="400" height="66" rx="10" fill="#e3f2ea" stroke="#0e7a4d" stroke-width="1.6"/><text x="270" y="384" font-weight="600">every required fact present</text><text x="270" y="404" fill="#44524c" font-size="12">largest model&#39;s reply</text>
+<rect x="510" y="356" width="380" height="66" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="1.6"/><text x="700" y="384" font-weight="700" fill="#a13333">all six facts, all-or-nothing</text><text x="700" y="404" fill="#44524c" font-size="12">long rubric · small judge</text>
+<path d="M472 389 h36" stroke="#a13333" stroke-width="1.6" stroke-dasharray="4 4"/>
+<text x="1030" y="384" font-weight="700" fill="#a13333" font-size="12.5">grader fault</text><text x="1030" y="404" fill="#44524c" font-size="12">same reply: fail, fail, pass</text>
+</g>
+<text x="600" y="462" text-anchor="middle" font-size="12.5" fill="#7f8a84">four mismatches · the agent was right in every one · the transcripts said so before the score did</text>
+</svg>

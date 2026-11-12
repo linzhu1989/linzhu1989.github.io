@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" font-family="Avenir Next, Helvetica Neue, Segoe UI, sans-serif">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7f8a84"/></marker>
+  <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#a13333"/></marker>
+  <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0e7a4d"/></marker></defs>
+  <rect width="1200" height="430" fill="#fbfbf9"/>
+  <text x="300" y="44" text-anchor="middle" font-size="13" letter-spacing="2" fill="#a13333" font-weight="600">BEFORE · FALL BACK TO A GUESS</text>
+  <g font-size="13" fill="#182420" text-anchor="middle">
+    <rect x="160" y="66" width="280" height="54" rx="10" fill="#182420"/><text x="300" y="89" fill="#fff" font-weight="600">shell command</text><text x="300" y="108" fill="#cfd8d3" font-size="12">heredoc · "don't" · mentions a merge</text>
+    <rect x="160" y="146" width="280" height="54" rx="10" fill="#ffffff" stroke="#c9d0cb"/><text x="300" y="169" font-weight="600">parse with a shell tokenizer</text><text x="300" y="188" fill="#44524c" font-size="12">look at program + arguments</text>
+    <path d="M300 122 v22" stroke="#7f8a84" stroke-width="1.6" marker-end="url(#a)"/>
+    <rect x="50" y="236" width="220" height="54" rx="10" fill="#ffffff" stroke="#c9d0cb"/><text x="160" y="259" font-weight="600">parsed</text><text x="160" y="278" fill="#44524c" font-size="12">push/merge? ask · else allow</text>
+    <rect x="330" y="236" width="220" height="54" rx="10" fill="#faf0da" stroke="#a06b12"/><text x="440" y="259" font-weight="600">can't parse</text><text x="440" y="278" fill="#44524c" font-size="12">search raw text for keywords</text>
+    <path d="M250 202 L190 234" stroke="#7f8a84" stroke-width="1.6" marker-end="url(#a)"/>
+    <path d="M350 202 L410 234" stroke="#a13333" stroke-width="1.6" marker-end="url(#r)"/>
+    <rect x="330" y="316" width="220" height="54" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="2"/><text x="440" y="339" fill="#a13333" font-weight="700">"merge" found · block</text><text x="440" y="358" fill="#a13333" font-size="12">no reason · turn just ends</text>
+    <path d="M440 292 v22" stroke="#a13333" stroke-width="1.6" marker-end="url(#r)"/>
+  </g>
+  <text x="300" y="404" text-anchor="middle" font-size="12.5" fill="#7f8a84">a harmless write is stopped · nobody hears why</text>
+  <line x1="600" y1="40" x2="600" y2="400" stroke="#e4e8e4"/>
+  <text x="900" y="44" text-anchor="middle" font-size="13" letter-spacing="2" fill="#0e7a4d" font-weight="600">AFTER · FAIL VISIBLY</text>
+  <g font-size="13" fill="#182420" text-anchor="middle">
+    <rect x="760" y="66" width="280" height="54" rx="10" fill="#182420"/><text x="900" y="89" fill="#fff" font-weight="600">shell command</text><text x="900" y="108" fill="#cfd8d3" font-size="12">same heredoc, same apostrophe</text>
+    <rect x="760" y="146" width="280" height="54" rx="10" fill="#ffffff" stroke="#c9d0cb"/><text x="900" y="169" font-weight="600">parse with a shell tokenizer</text><text x="900" y="188" fill="#44524c" font-size="12">look at program + arguments</text>
+    <path d="M900 122 v22" stroke="#7f8a84" stroke-width="1.6" marker-end="url(#a)"/>
+    <rect x="650" y="236" width="220" height="54" rx="10" fill="#ffffff" stroke="#c9d0cb"/><text x="760" y="259" font-weight="600">parsed</text><text x="760" y="278" fill="#44524c" font-size="12">push/merge? ask · else allow</text>
+    <rect x="930" y="236" width="220" height="54" rx="10" fill="#e3f2ea" stroke="#0e7a4d" stroke-width="2"/><text x="1040" y="259" font-weight="700" fill="#0e7a4d">can't parse · deny</text><text x="1040" y="278" fill="#44524c" font-size="12">reason: "couldn't read this"</text>
+    <path d="M850 202 L790 234" stroke="#7f8a84" stroke-width="1.6" marker-end="url(#a)"/>
+    <path d="M950 202 L1010 234" stroke="#0e7a4d" stroke-width="1.6" marker-end="url(#g)"/>
+    <rect x="930" y="316" width="220" height="54" rx="10" fill="#ffffff" stroke="#0e7a4d"/><text x="1040" y="339" font-weight="600">agent tells the human</text><text x="1040" y="358" fill="#44524c" font-size="12">one look · run continues</text>
+    <path d="M1040 292 v22" stroke="#0e7a4d" stroke-width="1.6" marker-end="url(#g)"/>
+  </g>
+  <text x="900" y="404" text-anchor="middle" font-size="12.5" fill="#7f8a84">still fails closed · now a person finds out</text>
+</svg>

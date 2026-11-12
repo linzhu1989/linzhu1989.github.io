@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" font-family="PingFang SC, Avenir Next, Helvetica Neue, Segoe UI, sans-serif">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7f8a84"/></marker></defs>
+  <rect width="1200" height="420" fill="#fbfbf9"/>
+  <text x="600" y="40" text-anchor="middle" font-size="13" letter-spacing="2" fill="#182420" font-weight="600">对着真实环境，一次只弄坏一样东西</text>
+  <g font-size="13" fill="#182420" text-anchor="middle">
+    <rect x="70" y="80" width="230" height="70" rx="10" fill="#182420"/><text x="185" y="108" fill="#fff" font-weight="600">测试预订服务</text><text x="185" y="130" fill="#cfd8d3" font-size="12">在本地运行</text>
+    <rect x="430" y="70" width="340" height="90" rx="12" fill="#faf0da" stroke="#a06b12" stroke-width="2"/><text x="600" y="98" font-weight="700" fill="#a06b12">故障代理</text><text x="600" y="120" fill="#44524c" font-size="12">错误路径 · 去掉参数 · 删掉字段</text><text x="600" y="140" fill="#44524c" font-size="12">注入 5xx · 断开连接 · 超时</text>
+    <rect x="900" y="80" width="230" height="70" rx="10" fill="#ffffff" stroke="#c9d0cb"/><text x="1015" y="108" font-weight="600">真实 staging</text><text x="1015" y="130" fill="#44524c" font-size="12">查航班 · 选座 · 路由 · 下单</text>
+    <path d="M302 115 h124" stroke="#7f8a84" stroke-width="1.6" marker-end="url(#a)"/>
+    <path d="M772 115 h124" stroke="#7f8a84" stroke-width="1.6" marker-end="url(#a)"/>
+  </g>
+  <text x="600" y="214" text-anchor="middle" font-size="12" letter-spacing="1.5" fill="#7f8a84" font-weight="600">谁都没料到的返回结果</text>
+  <g font-size="13" fill="#182420" text-anchor="middle">
+    <rect x="70" y="236" width="330" height="110" rx="10" fill="#ffffff" stroke="#c9d0cb"/><text x="235" y="266" font-weight="700">「这天没航班」</text><text x="235" y="292" fill="#44524c" font-size="12">以为是：404</text><text x="235" y="314" font-size="12" font-weight="600" fill="#0e7a4d">实际是：200 加空列表</text>
+    <rect x="435" y="236" width="330" height="110" rx="10" fill="#f8e6e6" stroke="#a13333"/><text x="600" y="266" font-weight="700" fill="#a13333">选座失败</text><text x="600" y="292" fill="#44524c" font-size="12">以为是：报错</text><text x="600" y="314" font-size="12" font-weight="600" fill="#a13333">实际是：返回成功，但没有座位</text>
+    <rect x="800" y="236" width="330" height="110" rx="10" fill="#f8e6e6" stroke="#a13333" stroke-width="2"/><text x="965" y="266" font-weight="700" fill="#a13333">路由失败</text><text x="965" y="292" fill="#44524c" font-size="12">以为是：停下</text><text x="965" y="314" font-size="12" font-weight="600" fill="#a13333">实际是：先多订了 3 个真实预订</text>
+  </g>
+  <text x="600" y="390" text-anchor="middle" font-size="12.5" fill="#7f8a84">读代码是一种结论，凭记忆是另一种，只有真实的上游知道答案</text>
+</svg>

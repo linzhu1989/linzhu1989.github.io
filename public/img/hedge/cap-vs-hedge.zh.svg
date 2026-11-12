@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 36 1200 380" font-family="PingFang SC, Avenir Next, Helvetica Neue, Segoe UI, sans-serif">
+  <rect y="36" width="1200" height="380" fill="#fbfbf9"/>
+  <line x1="358.0" y1="80" x2="358.0" y2="218" stroke="#a06b12" stroke-dasharray="4 4"/><line x1="358.0" y1="274" x2="358.0" y2="370" stroke="#a06b12" stroke-dasharray="4 4"/>
+  <line x1="1110.0" y1="80" x2="1110.0" y2="370" stroke="#7f8a84" stroke-dasharray="4 4"/>
+  
+  <text x="60" y="70" font-size="13" letter-spacing="2" fill="#a13333" font-weight="600">上限 · 8 秒杀掉，从头重试</text>
+<rect x="170" y="88" width="188" height="34" rx="6" fill="#f8e6e6" stroke="#a13333"/>
+<text x="264" y="110" text-anchor="middle" font-size="12" fill="#a13333">第 1 次 · 被杀</text>
+<text x="368" y="111" text-anchor="middle" font-size="16" fill="#a13333" font-weight="700">×</text>
+<rect x="370" y="130" width="188" height="34" rx="6" fill="#f8e6e6" stroke="#a13333"/>
+<text x="464" y="152" text-anchor="middle" font-size="12" fill="#a13333">第 2 次 · 被杀</text>
+<text x="568" y="153" text-anchor="middle" font-size="16" fill="#a13333" font-weight="700">×</text>
+<rect x="581" y="172" width="188" height="34" rx="6" fill="#f8e6e6" stroke="#a13333"/>
+<text x="675" y="194" text-anchor="middle" font-size="12" fill="#a13333">第 3 次 · 被杀</text>
+<text x="779" y="195" text-anchor="middle" font-size="16" fill="#a13333" font-weight="700">×</text>
+<text x="804" y="194" font-size="12.5" fill="#a13333" font-weight="600">重试用完 · Agent 没有工具就开始干活</text>
+<text x="60" y="262" font-size="13" letter-spacing="2" fill="#0e7a4d" font-weight="600">对冲 · 8 秒时再开一次</text>
+<rect x="170" y="280" width="329" height="34" rx="6" fill="#e3f2ea" stroke="#0e7a4d"/>
+<text x="334" y="302" text-anchor="middle" font-size="12" fill="#0e7a4d">第 1 次继续跑</text>
+<text x="511" y="303" text-anchor="middle" font-size="16" fill="#0e7a4d" font-weight="700">✓</text>
+<rect x="358" y="322" width="141" height="34" rx="6" fill="#ffffff" stroke="#c9d0cb"/>
+<text x="428" y="344" text-anchor="middle" font-size="12" fill="#44524c">第 2 次，新连接</text>
+<text x="534" y="302" font-size="12.5" fill="#0e7a4d" font-weight="600">第 1 次 14 秒返回 · 用它</text>
+<text x="534" y="344" font-size="12" fill="#44524c">第 2 次丢弃</text>
+<line x1="170.0" y1="378" x2="1110.0" y2="378" stroke="#c9d0cb"/>
+<line x1="170.0" y1="374" x2="170.0" y2="382" stroke="#c9d0cb"/><text x="170.0" y="398" text-anchor="middle" font-size="11.5" fill="#7f8a84">0 秒</text>
+<line x1="358.0" y1="374" x2="358.0" y2="382" stroke="#c9d0cb"/><text x="358.0" y="398" text-anchor="middle" font-size="11.5" fill="#7f8a84">8 秒</text>
+<line x1="546.0" y1="374" x2="546.0" y2="382" stroke="#c9d0cb"/><text x="546.0" y="398" text-anchor="middle" font-size="11.5" fill="#7f8a84">16 秒</text>
+<line x1="734.0" y1="374" x2="734.0" y2="382" stroke="#c9d0cb"/><text x="734.0" y="398" text-anchor="middle" font-size="11.5" fill="#7f8a84">24 秒</text>
+<line x1="922.0" y1="374" x2="922.0" y2="382" stroke="#c9d0cb"/><text x="922.0" y="398" text-anchor="middle" font-size="11.5" fill="#7f8a84">32 秒</text>
+<line x1="1110.0" y1="374" x2="1110.0" y2="382" stroke="#c9d0cb"/><text x="1110.0" y="398" text-anchor="middle" font-size="11.5" fill="#7f8a84">40 秒</text>
+
+<text x="364.0" y="372" font-size="11.5" fill="#a06b12">8 秒</text>
+
+<text x="1104.0" y="372" text-anchor="end" font-size="11.5" fill="#7f8a84">harness 上限 40 秒</text>
+</svg>
