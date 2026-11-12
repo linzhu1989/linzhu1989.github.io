@@ -3,7 +3,7 @@ title: "Two dead apps, one token"
 description: "Two unrelated chat apps died the same morning with the same symptom: typed messages ignored, buttons still working. Every restart made it worse. The cause was nine ghost connections on one shared token, and the fix was to stop restarting."
 date: 2026-07-26
 order: 15
-rank: 15
+rank: 24
 tags: [engineering]
 cover: /img/ghost-connections/restarts.svg
 ---

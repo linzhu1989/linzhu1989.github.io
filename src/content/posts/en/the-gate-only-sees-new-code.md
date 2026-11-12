@@ -3,7 +3,7 @@ title: "The gate only sees new code"
 description: "A Java 25 upgrade passed the pull-request quality gate cleanly. The main branch then showed 63 issues in code nobody had touched. After we cleaned them up, it showed 63 again, because an older pipeline finished last. Two blind spots of a gate I still believe in."
 date: 2026-11-09
 order: 23
-rank: 23
+rank: 18
 tags: [testing, engineering]
 cover: /img/new-code-gate/two-views.svg
 ---

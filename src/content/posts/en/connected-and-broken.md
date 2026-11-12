@@ -3,7 +3,7 @@ title: "Connected, green, and broken"
 description: "Our issue tracker moved to a new domain at five in the morning. By lunch every dashboard was green and the bot still couldn't create a ticket. The connection said Connected, the jobs said success, and the errors said permission denied. None of the three was telling the truth."
 date: 2026-11-07
 order: 20
-rank: 20
+rank: 11
 tags: [engineering, automation]
 cover: /img/connected/layers.svg
 ---

@@ -3,7 +3,7 @@ title: "同一个技能，放在对话里和放在定时任务里，规则完全
 description: "一个帮人规划测试的技能，工程师在终端里用，经理希望夜里自动跑。指令、工具、输出格式都一样，我以为只是触发方式不同。结果两个月里出了一堆看起来互不相关的 bug，最后发现是同一个原因：交互式和无人值守两种场景，需要的运行规则不一样。"
 date: 2026-09-06
 order: 4
-rank: 10
+rank: 17
 tags: [agents, architecture]
 cover: /img/two-bodies/two-bodies.zh.svg
 ---

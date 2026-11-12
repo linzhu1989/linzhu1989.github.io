@@ -3,7 +3,7 @@ title: "批量任务跑到一半，Agent 停下来问了一句：它问对了，
 description: "一次批量任务要在测试环境里订真实的预订。跑到一半，Agent 停下来问语言参数该用什么。停是对的，问题在于我之前已经对一份缺了这个参数的确认摘要说了「开始」。"
 date: 2026-11-02
 order: 22
-rank: 22
+rank: 12
 tags: [agents, automation]
 cover: /img/ask-first/step-chain.zh.svg
 ---

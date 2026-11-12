@@ -3,7 +3,7 @@ title: "工单描述为什么是空的：Agent 每次都读工具描述，不一
 description: "一个 Agent 创建的工单描述字段是空的。指令里写了描述必填，但那条指令在一个没加载的文件里；工具定义里写的是描述可选，Agent 信了工具。这篇讲给 Agent 接工具时真正需要注意的四件事：工具的描述、工具返回空的时候、工具的名字、工具的鉴权。"
 date: 2026-09-10
 order: 5
-rank: 7
+rank: 10
 tags: [agents, tooling]
 cover: /img/agent-tools/who-wins.zh.svg
 ---

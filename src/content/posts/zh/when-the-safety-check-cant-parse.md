@@ -3,7 +3,7 @@ title: "安全检查读不懂命令时，不该去猜：一次插件移植里发
 description: "我把一个 Claude Code 插件放到另一个 Agent harness 上跑，想看看它有多好移植。大部分只是改名。真正的问题出在一个拦截 push/merge 的安全 hook 上：命令里有个撇号，它解析失败后改成按关键词匹配，拦下了一次无害的写文件，Agent 这一轮就这么没声音地结束了。"
 date: 2026-10-27
 order: 25
-rank: 25
+rank: 14
 tags: [agents, tooling]
 cover: /img/fail-loud/gate-paths.zh.svg
 ---

@@ -3,7 +3,7 @@ title: "When the safety check can't parse its input"
 description: "I moved a Claude Code plugin to a second agent harness to see how portable it was. Most of it was renames. The surprise was a push/merge safety hook: when its shell parser choked on an apostrophe, it fell back to keyword matching, blocked a harmless write, and the agent's turn ended without a word."
 date: 2026-10-27
 order: 25
-rank: 25
+rank: 14
 tags: [agents, tooling]
 cover: /img/fail-loud/gate-paths.svg
 ---

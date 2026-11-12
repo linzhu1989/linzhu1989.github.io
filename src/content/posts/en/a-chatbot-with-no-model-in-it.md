@@ -3,7 +3,7 @@ title: "A chatbot with no model in it"
 description: "Someone needed an internal Q&A bot and everyone assumed that meant an LLM. The real need was a lookup: a few dozen questions with stable answers. We built it in a day with a static table, put an LLM version next to it for the demo, and the table won. Then the edit screen taught us a lesson about autoformatters."
 date: 2026-07-05
 order: 14
-rank: 13
+rank: 22
 tags: [tooling, engineering]
 cover: /img/no-model-bot/side-by-side.svg
 ---

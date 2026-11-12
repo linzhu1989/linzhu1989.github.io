@@ -3,7 +3,7 @@ title: "后台任务一秒就挂了，等待循环却等了快两个小时"
 description: "编码助手在后台启动了一个很长的 eval 任务，又写了一个循环，等日志里出现 ALL_DONE。任务启动不到一秒就失败退出了，循环却一直在等，直到我问了一句「还在跑吗」。"
 date: 2026-11-06
 order: 24
-rank: 24
+rank: 21
 tags: [agents, engineering]
 cover: /img/waiter/two-waiters.zh.svg
 ---

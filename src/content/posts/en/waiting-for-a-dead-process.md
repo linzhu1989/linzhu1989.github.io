@@ -3,7 +3,7 @@ title: "Waiting for a dead process"
 description: "A coding assistant started a long eval run in the background and set a loop to wait for the word ALL_DONE in its log. The run had died in its first second. The loop waited almost two hours, until I asked whether anything was still running."
 date: 2026-11-06
 order: 24
-rank: 24
+rank: 21
 tags: [agents, engineering]
 cover: /img/waiter/two-waiters.svg
 ---

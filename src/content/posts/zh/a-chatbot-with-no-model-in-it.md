@@ -3,7 +3,7 @@ title: "一个内部问答机器人，没用模型，一天做完"
 description: "有人要一个能回答常见内部问题的机器人，所有人默认要用 LLM。我先看了问题列表：三十个左右，答案稳定。于是用一张静态表一天做了一个，demo 时旁边放了个 LLM 版本对比，静态版赢了。两周后上线编辑功能，又碰上一个自动格式化的坑。这篇讲这两件事。"
 date: 2026-07-05
 order: 14
-rank: 13
+rank: 22
 tags: [tooling, engineering]
 cover: /img/no-model-bot/side-by-side.zh.svg
 ---

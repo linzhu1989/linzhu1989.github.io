@@ -3,7 +3,7 @@ title: "搬家的时候发现，一半的内部工具三十天没人打开过"
 description: "把一个 Agent 搬进共享插件的时候，我们把它周围的命令、看板、脚本列了一遍，只问一个问题：最近三十天谁用过？看板、反馈流程、沙箱协议的答案都是「只有我们三个开发」。我们把这些全砍了，插件比原来的仓库还小。这篇讲为什么没人用的工具其实一直在花钱，以及我现在做内部工具之前先问的三个问题。"
 date: 2026-09-13
 order: 6
-rank: 14
+rank: 23
 tags: [tooling, engineering]
 cover: /img/unused-tooling/inventory.zh.svg
 ---

@@ -3,7 +3,7 @@ title: "升级 Java 25，PR 门禁全绿，主分支却冒出 63 个问题"
 description: "一个老 Java 服务升级到 Java 25，PR 的质量门禁顺利通过。合并后主分支的分析报告里冒出 63 个问题，全在没人改过的老代码里。清理完以后又显示 63，原因是一条更早的流水线最后才跑完。这是「新代码 100%」这条规矩看不到的两个地方。"
 date: 2026-11-09
 order: 23
-rank: 23
+rank: 18
 tags: [testing, engineering]
 cover: /img/new-code-gate/two-views.zh.svg
 ---

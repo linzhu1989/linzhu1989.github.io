@@ -3,7 +3,7 @@ title: "同一个 bug 出了三次，第三次才发现是同一个"
 description: "两个月里三起事故，各修各的：一条被吞掉的回复、一份被自信地捍卫的过期文档、两次编出来的代码引用。每次看起来都不相关，每次都修好了。第三次有人说，这三个是同一个 bug。原因在路由表之外的兜底逻辑里。"
 date: 2026-09-21
 order: 9
-rank: 4
+rank: 5
 tags: [engineering, agents]
 cover: /img/third-time/timeline.zh.svg
 ---

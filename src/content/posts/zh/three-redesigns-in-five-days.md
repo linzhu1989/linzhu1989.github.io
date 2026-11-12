@@ -3,7 +3,7 @@ title: "一个 thread 里两张工单，Agent 该怎么选？五天改了三版"
 description: "thread 里提到两张工单，Agent 默默选了一张，错了。第一版修法是让模型判断，被否了；第二版是停下来问，结果把 thread 永久卡死；最后上线的第三版，逻辑一行没改，只是让 Agent 每次说出它选了哪张。这篇讲为什么前两版不行，以及什么情况下「说出来」比「防住」好。"
 date: 2026-08-23
 order: 13
-rank: 11
+rank: 19
 tags: [agents, engineering]
 cover: /img/thread-lock/three-attempts.zh.svg
 ---

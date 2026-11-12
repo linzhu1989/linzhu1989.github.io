@@ -3,7 +3,7 @@ title: "休假三周回来，后端换了一套，我是怎么补课的"
 description: "产假三周回来，产品界面一模一样，底下的系统全换了：二十来个架构变更，每一个都有理由，没有一个我参与过。读 commit log 补不上这种课。这篇讲我第一天怎么过的，以及一个只有这么做才会发现的 bug。"
 date: 2026-09-19
 order: 8
-rank: 16
+rank: 25
 tags: [career, engineering]
 cover: /img/back-from-leave/before-after.zh.svg
 ---

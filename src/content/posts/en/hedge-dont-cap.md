@@ -3,7 +3,7 @@ title: "Hedge, don't cap"
 description: "A tools server was slow to come back after a dropped connection, and the obvious fix was an 8-second cap per attempt. Fourteen days of logs said almost half the slow loads would have succeeded. We started a second try instead of killing the first, and the 30-second stalls went from 36 to zero."
 date: 2026-11-04
 order: 18
-rank: 18
+rank: 8
 tags: [engineering, agents]
 cover: /img/hedge/distribution.svg
 ---

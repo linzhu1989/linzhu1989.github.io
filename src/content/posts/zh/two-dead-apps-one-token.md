@@ -3,7 +3,7 @@ title: "两个 Slack 应用同一天不响应：九条僵尸连接是怎么来�
 description: "一个周五早上，两个互不相关的聊天应用同时失灵，症状一样：打字没反应，按按钮好用。我们先找共同原因，浪费了一个下午；然后不断重启，结果越来越糟。最后发现一个 token 上挂着九条没关掉的连接。这篇讲这次事故的经过和三个教训。"
 date: 2026-07-26
 order: 15
-rank: 15
+rank: 24
 tags: [engineering]
 cover: /img/ghost-connections/restarts.zh.svg
 ---

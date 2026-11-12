@@ -3,7 +3,7 @@ title: "Three redesigns in five days"
 description: "A thread mentioned two work items and the agent silently picked one. The clever fix was rejected. The safe fix jammed threads for good. What shipped was the original behaviour plus one sentence. A short story about when disclosure beats prevention."
 date: 2026-08-23
 order: 13
-rank: 11
+rank: 19
 tags: [agents, engineering]
 cover: /img/thread-lock/three-attempts.svg
 ---

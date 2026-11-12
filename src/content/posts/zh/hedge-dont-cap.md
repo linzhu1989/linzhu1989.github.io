@@ -3,7 +3,7 @@ title: "超时该怎么设：一个本来要加的 8 秒上限，看完日志后
 description: "工具服务断线后重新加载很慢，最直接的改法是每次尝试最多等 8 秒。拉了 14 天日志一看，超过 8 秒的加载有将近一半最后都成功了。最后没有杀掉慢的那次，而是在 8 秒时再开一次，谁先回来用谁。超过 30 秒的卡顿从 36 次降到 0。"
 date: 2026-11-04
 order: 18
-rank: 18
+rank: 8
 tags: [engineering, agents]
 cover: /img/hedge/distribution.zh.svg
 ---

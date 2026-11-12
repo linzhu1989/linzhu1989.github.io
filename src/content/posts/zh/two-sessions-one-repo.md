@@ -3,7 +3,7 @@ title: "同时开几个 Claude Code 会话改同一个仓库，怎么才能不�
 description: "我常常同时开两三个 Claude Code 会话，改的是同一个个人 git 仓库。会话之间互相看不见，唯一共享的是仓库里的文件。所以协调规则也只能写在文件里：先认领、只提交自己的文件、走之前留交接说明。"
 date: 2026-11-11
 order: 17
-rank: 17
+rank: 4
 tags: [agents, engineering]
 cover: /img/two-sessions/lifecycle.zh.svg
 ---

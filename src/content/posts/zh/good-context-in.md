@@ -3,7 +3,7 @@ title: "答案错了先查什么？五种 context 出错的情况"
 description: "做了一年 LLM 应用，我在三个系统上查过几十个错误答案，能归到模型头上的一只手数得过来。绝大多数是给模型的信息出了问题：缺了、混了、排法不对、工具返回假的、规则没加载。这篇讲这五种情况长什么样，以及查错的时候按什么顺序看。"
 date: 2026-09-23
 order: 10
-rank: 5
+rank: 7
 tags: [agents, engineering]
 cover: /img/context-in/where-wrong-came-from.zh.svg
 ---

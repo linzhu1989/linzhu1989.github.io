@@ -3,7 +3,7 @@ title: "Eval 只拿了 0.33 分，查下来是评分器写错了"
 description: "一个新写的 Agent 技能，在最小的模型上跑了三次 eval，三次都是 0.33 分。第一反应是改技能。翻了 transcript 才发现 Agent 每次都做对了。五个失败里，四个是评分器的问题，只有一个是真 bug，要分清楚只能去看 Agent 实际做了什么。"
 date: 2026-10-31
 order: 19
-rank: 19
+rank: 6
 tags: [agents, testing]
 cover: /img/grader/two-columns.zh.svg
 ---

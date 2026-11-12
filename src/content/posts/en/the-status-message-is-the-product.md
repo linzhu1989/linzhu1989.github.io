@@ -3,7 +3,7 @@ title: "The status message is the product"
 description: "One job finished in 94 seconds and showed 'still running' for an hour and a half. Another said 'nothing has started, please approve' four minutes after it had started, so the user approved again and paid twice. Neither was a bug in the work. Both were bugs in the sentence about the work."
 date: 2026-09-02
 order: 12
-rank: 6
+rank: 9
 tags: [engineering, agents]
 cover: /img/status-message/two-paths.svg
 ---

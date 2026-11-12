@@ -3,7 +3,7 @@ title: "One hundred percent, on purpose"
 description: "On a Java service with a few thousand tests, every merge has to bring new-code coverage to 100% and add zero static-analysis findings. It sounds like a rule from a textbook. It is the reason we can let an AI assistant write code there. One pull request went from 37.7% to 100% with twelve tests aimed at the branches nobody looks at."
 date: 2026-08-16
 order: 16
-rank: 8
+rank: 13
 tags: [testing, engineering]
 cover: /img/hundred-percent/loop.svg
 ---

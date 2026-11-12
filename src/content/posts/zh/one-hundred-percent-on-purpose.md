@@ -3,7 +3,7 @@ title: "为什么我们要求新代码覆盖率必须 100%"
 description: "一个几千个测试的 Java 老服务，每次合并要求改动到的代码覆盖率 100%，静态分析零新增问题。我以前觉得这种要求是纸上谈兵。今年改了看法，因为写代码的人变了。有一个 PR 从 37.7% 到 100%，靠的是十二个专门瞄着没人看过的分支写的测试。"
 date: 2026-08-16
 order: 16
-rank: 8
+rank: 13
 tags: [testing, engineering]
 cover: /img/hundred-percent/loop.zh.svg
 ---

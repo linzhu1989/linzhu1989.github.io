@@ -3,7 +3,7 @@ title: "上游返回 404 就算出错吗？给测试数据服务改报错时踩�
 description: "我想让一个造测试预订的服务报错时说清楚原因。第一版方案把上游所有 404 和 5xx 都当成失败。后来在真实 staging 前面加了故障注入才发现：「当天没航班」其实返回的是 200 加空列表，选座失败最后居然报了成功，路由失败之前还多订了三个真实预订。光看状态码判断不了到底发生了什么。"
 date: 2026-10-24
 order: 21
-rank: 21
+rank: 15
 tags: [testing, engineering]
 cover: /img/status-codes/matrix.zh.svg
 ---

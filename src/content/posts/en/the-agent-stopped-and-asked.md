@@ -3,7 +3,7 @@ title: "The agent stopped and asked"
 description: "Halfway through a batch run that books real test reservations, the agent stopped and asked a question. It was right to stop. The question just came too late: by then I had already said go to a summary that didn't contain the answer."
 date: 2026-11-02
 order: 22
-rank: 22
+rank: 12
 tags: [agents, automation]
 cover: /img/ask-first/step-chain.svg
 ---

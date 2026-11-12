@@ -3,7 +3,7 @@ title: "第二个 Agent 为什么九周就上线了？六样基础设施全用�
 description: "开工那天我列了新 Agent 需要的六样东西：访问工单和代码、放指令的地方、发布渠道、开 PR、测试管理工具、测试落地的仓库。每一样公司里都已经有人在维护。我们没有另建一套，全部搬进去用。这篇讲这个决定换来了什么、付出了什么、什么情况下还是得自己做。"
 date: 2026-09-16
 order: 7
-rank: 12
+rank: 20
 tags: [engineering, agents]
 cover: /img/reuse/peer-vs-tenant.zh.svg
 ---

@@ -3,7 +3,7 @@ title: "The grader was wrong"
 description: "A new agent skill scored 0.33 on the smallest model, three runs out of three. The obvious move was to fix the agent. The transcripts said the agent was right every time. Four of the failures were in the graders, one was real, and the only way to tell them apart was to read what the agent actually did."
 date: 2026-10-31
 order: 19
-rank: 19
+rank: 6
 tags: [agents, testing]
 cover: /img/grader/two-columns.svg
 ---

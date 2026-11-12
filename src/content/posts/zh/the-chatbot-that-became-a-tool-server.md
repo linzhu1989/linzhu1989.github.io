@@ -3,7 +3,7 @@ title: "一个聊天面板做了五周，两周后变成了 MCP server"
 description: "二月我在一张很难填的内部表单旁边做了个聊天面板，Claude 走 Bedrock API，五周做了三版。三月大家都开始用终端里的编码助手，我把面板底下的工具和知识拆出来，两周做成 MCP server，面板变成了众多客户端之一。这篇讲这个过程，以及六周里真正有价值的是什么。"
 date: 2026-08-30
 order: 3
-rank: 9
+rank: 16
 tags: [agents, tooling]
 cover: /img/chatbot-to-tools/before-after.zh.svg
 ---

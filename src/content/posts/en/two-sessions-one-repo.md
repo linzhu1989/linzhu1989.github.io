@@ -3,7 +3,7 @@ title: "Two sessions, one repo"
 description: "I run several Claude Code sessions against the same personal git repo, often at the same time. They cannot see each other. The only thing they share is the files, so the coordination has to live in the files too: a claim line, a scoped commit, a note for whoever comes next."
 date: 2026-11-11
 order: 17
-rank: 17
+rank: 4
 tags: [agents, engineering]
 cover: /img/two-sessions/lifecycle.svg
 ---

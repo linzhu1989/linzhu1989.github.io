@@ -3,7 +3,7 @@ title: "连接显示「已连接」，任务显示「成功」，可工单一张
 description: "工单系统早上五点换了域名。到中午，所有状态都是绿的，机器人却还是建不了工单：连接页面说已连接，任务记录说成功，报错说没权限，三个说法没有一个是真的。另一个服务因为 302 跳转，写操作悄悄失败了一整天。"
 date: 2026-11-07
 order: 20
-rank: 20
+rank: 11
 tags: [engineering, automation]
 cover: /img/connected/layers.zh.svg
 ---

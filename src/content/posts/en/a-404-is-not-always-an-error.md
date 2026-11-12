@@ -3,7 +3,7 @@ title: "A 404 is not always an error"
 description: "I wanted clearer error messages from a service that creates test bookings. The first draft treated every upstream 404 and 5xx as a failure. It wasn't that simple: one 404 meant 'try the next date', the 'no flights' case was really a 200 with an empty body, and one quiet failure booked three extra reservations. Status codes alone can't tell you what happened."
 date: 2026-10-24
 order: 21
-rank: 21
+rank: 15
 tags: [testing, engineering]
 cover: /img/status-codes/matrix.svg
 ---

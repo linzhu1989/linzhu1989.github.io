@@ -3,7 +3,7 @@ title: "任务早就跑完了，屏幕却还在转：两次状态提示出错的
 description: "一次是任务 94 秒就跑完了，界面上的「仍在运行」却转了一个半小时；一次是任务已经跑了四分钟，界面说「尚未开始，请批准」，用户又点了一次，同一个任务花了两份钱。两次任务本身都没出错，出错的是给用户看的那句状态提示。"
 date: 2026-09-02
 order: 12
-rank: 6
+rank: 9
 tags: [engineering, agents]
 cover: /img/status-message/two-paths.zh.svg
 ---
