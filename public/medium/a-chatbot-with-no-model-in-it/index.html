@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://linzhu1989.github.io/posts/a-chatbot-with-no-model-in-it/">
+<title>A chatbot with no model in it</title>
+<style>body{max-width:720px;margin:2rem auto;padding:0 16px;font:18px/1.6 Georgia,serif;color:#182420;background:#fbfbf9}img{max-width:100%}figcaption{color:#7f8a84;font-size:.9em}</style>
+</head><body><article>
+<h1>A chatbot with no model in it</h1>
+<p>The request was for a chatbot that could answer common internal
+questions in the team chat. This year, a request like that arrives
+pre-loaded with an answer: an LLM, some retrieval, a vector store, a
+prompt.</p>
+<p>I asked to see the questions first. There were about thirty. They had
+stable answers, the kind that change twice a year when a policy changes.
+Nobody needed reasoning. They needed the right paragraph, fast, and a
+way for the person who owned the paragraph to fix it without filing a
+ticket.</p>
+<h2>What we built in a day</h2>
+<p>A bot with four menus and about thirty-two canned answers, backed by
+a static table. No model call anywhere. Pick a menu, pick a question,
+get the answer. Total build time: one working day. Demoed the next
+morning.</p>
+<p>For the demo I also built the LLM version, on purpose, and ran the
+two side by side on the same questions.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/no-model-bot/side-by-side.png" alt="Side by side demo. Left, the static bot: four menus, thirty-two answers, instant, never wrong, owner edits the text. Right, the LLM version: free-text questions, a second or two per answer, occasionally confident and wrong, edits mean re-tuning. The static one won for this need.">
+<figcaption>
+Same questions, two bots. For thirty stable answers, the one without a
+model won.
+</figcaption>
+</figure>
+<p>The static bot answered instantly, never invented anything, and could
+be corrected by the person who owned the answer. The LLM bot handled
+phrasing the menus could not, took a second or two, and once in the demo
+answered confidently and wrong. For this need, the table won, and the
+stakeholder could see why rather than take my word for it. That was the
+point of building both.</p>
+<h2>The edit screen, and the autoformatter</h2>
+<p>Two weeks later the bot was live, with an edit flow so a non-engineer
+could update answers from inside the chat. That is where the interesting
+bug lived.</p>
+<p>Answers contained links, written in the chat platform’s own link
+syntax. Someone would copy an answer out of the chat to edit it, paste
+it back, and the link markup would be gone: the platform’s editor had
+“helpfully” converted the syntax into a rendered link on paste, and what
+came back into the table was the rendered text, not the markup. Every
+edit cycle lost a little more structure.</p>
+<p>The first fix was clever: hide invisible characters inside the syntax
+so the editor’s autolinker would not recognise it. The editor recognised
+it anyway; autoformatters are better at this than you are.</p>
+<p>The fix that worked was boring. Store the clean syntax. At display
+time, and only then, escape the characters the autolinker looks for. The
+editor never sees a trigger, so it never rewrites anything, and the
+stored text stays exactly as typed.</p>
+<h2>Two lessons from a very small project</h2>
+<figure>
+<img src="https://linzhu1989.github.io/medium/a-chatbot-with-no-model-in-it/table1.png" alt="Table 1">
+</figure>
+<blockquote>
+<p>
+<strong>The rule:</strong> before adding a model, ask whether the need
+is reasoning or lookup, and if you are not sure, build both for the
+demo. And never fight an autoformatter you cannot remove; escape at the
+boundary where it reads, and keep the stored text clean.
+</p>
+</blockquote>
+
+</article></body></html>

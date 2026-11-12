@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://linzhu1989.github.io/posts/the-gate-only-sees-new-code/">
+<title>The gate only sees new code</title>
+<style>body{max-width:720px;margin:2rem auto;padding:0 16px;font:18px/1.6 Georgia,serif;color:#182420;background:#fbfbf9}img{max-width:100%}figcaption{color:#7f8a84;font-size:.9em}</style>
+</head><body><article>
+<h1>The gate only sees new code</h1>
+<p>A few weeks ago I wrote about <a
+href="/posts/one-hundred-percent-on-purpose/">holding new code to 100%
+coverage and zero new issues</a>. I still do. This is about the part of
+the codebase that rule doesn’t look at.</p>
+<p>We upgraded an old Java service to Java 25. The pull request was
+small: build files, a base image, a couple of API changes. The quality
+gate on the PR went green. 100% coverage on new code, zero new issues,
+thousands of tests passing. We merged it and it deployed without
+trouble.</p>
+<p>Then someone opened the main branch’s dashboard. 63 issues, all in
+code the PR never touched.</p>
+<h2>Where the 63 came from</h2>
+<p>Moving to a new Java version also switches on the analyser rules
+written for that version. Three of them fired across the old code:</p>
+<ul>
+<li>51 places where a parameter is never used and Java now lets you name
+it <code>_</code></li>
+<li>11 unused local variables, newly reported under the updated rule
+set</li>
+<li>1 call to an API that is marked for removal in the new release</li>
+</ul>
+<p>None of it is dangerous. All of it had been there for years, and none
+of it was in the diff. The PR gate is set to judge <strong>new
+code</strong>, meaning the lines this change added or modified. That is
+exactly what makes it fair to hold at 100%: you only answer for what you
+wrote. It also means a change that alters how the whole codebase is
+judged gets judged on its few edited lines.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/new-code-gate/two-views.png" alt="The same upgrade seen twice. The pull-request gate looks only at the changed lines: zero issues, green. The main-branch analysis looks at all the code under the new rules: 63 issues in files the upgrade never edited.">
+<figcaption>
+Same commit, two views. The PR gate is right about its slice. The slice
+is the problem.
+</figcaption>
+</figure>
+<h2>The wrong assumption</h2>
+<p>I treated “the gate is green” as “the branch is clean”. On a normal
+feature change those are close enough. On a toolchain change, like a new
+language version, a new analyser version or a new rule profile, they
+come apart. The change edits a few lines but moves the standard for
+every line.</p>
+<p>So we did the cleanup as its own small PR: rename the 51 parameters,
+delete the 11 variables, replace the one deprecated call. Same bar as
+always: the gate on that PR green, all tests passing. Merged.</p>
+<h2>Then it said 63 again</h2>
+<p>The main dashboard still showed 63.</p>
+<p>For a few minutes it looked like the cleanup hadn’t worked. It had.
+Two PRs had gone into main within minutes: an unrelated feature first,
+the cleanup right after. Each merge started its own pipeline on main.
+The cleanup’s pipeline finished first and reported 0. Then the earlier
+pipeline, analysing the earlier commit, finished a few minutes later and
+reported its own result: 63. The dashboard shows whatever arrived
+last.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/new-code-gate/last-wins.png" alt="Two pipelines on main. Pipeline 1 analyses the older commit and is slow. Pipeline 2 analyses the newer cleanup commit and finishes first with 0 issues. Pipeline 1 then finishes and overwrites the dashboard with 63. A re-run on the latest commit restores 0.">
+<figcaption>
+The dashboard shows the analysis that finished last, not the one for the
+newest commit.
+</figcaption>
+</figure>
+<p>We re-ran the analysis on the latest commit of main. 0 issues. The
+number on the dashboard had been honest about an old commit and wrong
+about the current one.</p>
+<h2>What I check now</h2>
+<figure>
+<img src="https://linzhu1989.github.io/medium/the-gate-only-sees-new-code/table1.png" alt="Table 1">
+</figure>
+<p>Two habits came out of it. After any change to the toolchain, I look
+at the full-branch analysis on main, not only the PR gate, and if the
+new rules found old debt, I clean it in a separate PR right away while
+the context is fresh. And before I believe a number on a dashboard, I
+check which commit it belongs to.</p>
+<p>The new-code rule is still right. It keeps every change honest
+without making anyone fix the past. It just doesn’t cover the one kind
+of change that rewrites what “the past” means.</p>
+<blockquote>
+<p>
+<strong>The rule:</strong> a new-code gate judges the lines you changed,
+not the standard you changed. After a language, analyser or rule-set
+upgrade, read the whole-branch analysis. And a dashboard number is only
+as current as the commit it names: the analysis that finishes last wins.
+</p>
+</blockquote>
+
+</article></body></html>

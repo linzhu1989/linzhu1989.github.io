@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://linzhu1989.github.io/posts/draft-until-a-human-says-so/">
+<title>Draft until a human says so</title>
+<style>body{max-width:720px;margin:2rem auto;padding:0 16px;font:18px/1.6 Georgia,serif;color:#182420;background:#fbfbf9}img{max-width:100%}figcaption{color:#7f8a84;font-size:.9em}</style>
+</head><body><article>
+<h1>Draft until a human says so</h1>
+<p>An agent that reviews requirements documents once went looking for
+the document it was asked to review, matched too loosely, picked up an
+unrelated stale draft, and renamed it to match the one it should have
+found. The fix was one line in a search filter. The document sat quietly
+wrong for days, because nothing in the system distinguished a name an
+agent had written from a name a person had written.</p>
+<p>That is the whole problem in one incident. The agent did not do
+anything it was not allowed to do. What it wrote simply became true the
+moment it was written.</p>
+<h2>Two bad answers</h2>
+<p>When an agent needs to write into a system other people rely on, the
+first instinct is one of two things.</p>
+<p>Take the access away. The agent proposes, a person copies and pastes.
+Safe, and the agent is now a slow autocomplete. Every gain in speed
+leaks out through the copy step.</p>
+<p>Or keep the access and make the prompt stricter. Add rules, add
+examples, add “never do X”. This helps at the margin and fails at the
+tail, and the tail is the only part anyone remembers.</p>
+<p>Both answers share an assumption: that the moment of writing is the
+moment of truth. Everything I have built this year that worked came from
+breaking that assumption.</p>
+<h2>Two worlds</h2>
+<p>Every shared system has two layers that usually collapse into
+one.</p>
+<p>There is the layer where things <strong>exist</strong>: rows, files,
+pages, tickets, messages. And there is the layer where things
+<strong>count</strong>: the report reads them, the pipeline runs them,
+the team acts on them, the channel shows them to two hundred people.</p>
+<p>The rule I use now is to keep those layers apart for anything an
+agent produces. The agent may make things exist. Only a person may make
+them count. In practice that is a status field on the artifact and a
+default filter in every consumer: draft records do not appear in the
+report, draft pull requests do not trigger reviews, draft messages stay
+in a private channel.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/draft-until/two-worlds.png" alt="An agent writes an artifact into the 'exists' world with a draft mark. Consumers such as reports, pipelines and channels read only from the 'counts' world. A person moves the artifact across by promoting it.">
+<figcaption>
+Existing and counting are different worlds. The agent writes into the
+first. Only a person moves things into the second.
+</figcaption>
+</figure>
+<h2>The same shape everywhere</h2>
+<p>Once you look for it, the shape is already there in most systems,
+half-used.</p>
+<figure>
+<img src="https://linzhu1989.github.io/medium/draft-until-a-human-says-so/table1.png" alt="Table 1">
+</figure>
+<p>None of these needed new infrastructure. Each needed one decision:
+which field means “draft”, and a promise that the agent never touches
+the two fields that flip it.</p>
+<h2>The rule I had to loosen</h2>
+<p>The clearest case was an agent that creates test cases in a shared
+test-management tool. That tool feeds the team’s coverage numbers. A
+wrong record there is not a typo, it is a lie in a chart that people
+make decisions from.</p>
+<p>The first rule was blunt: the agent may add cases to existing groups
+but may never create a new group. Safe. And in the first week with real
+users, dead end after dead end: “no matching group found, ask a person.”
+The very situations where help was most useful were the ones the rule
+forbade.</p>
+<p>We reversed it. The agent may create the group. But it creates it
+with the status the reports already ignore, and with itself named as
+owner. It never sets the status to ready and never changes the owner.
+Both flips are human actions, and both are one click. The safety net
+moved from “cannot do it” to “cannot count until someone looks”. Nothing
+about the coverage numbers changed. Everything about how useful the
+agent was did.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/draft-until/one-write.png" alt="One write, step by step: the agent shows the full list of what it will create and waits for go; it writes; it reads every field back and compares; each record carries an origin tag and the draft status; the reports skip it; a person reviews and promotes; only then it counts.">
+<figcaption>
+One write, end to end. Amber steps are a person’s. Nothing reaches the
+report until the last one.
+</figcaption>
+</figure>
+<h2>Three things that go with it</h2>
+<p>Draft-by-default only holds if a few smaller habits hold with it.</p>
+<p><strong>Show the list before writing.</strong> Every record the agent
+is about to create, in one screen, and one word to proceed. One word to
+create nothing. A person cannot review two hundred drafts after the
+fact; they can review a list of twelve before.</p>
+<p><strong>Read it back.</strong> After every write, fetch the record
+and compare field by field with what was intended. Tools lie, sometimes
+in small ways, and a draft that is silently different from what was
+approved is worse than no draft.</p>
+<p><strong>Tag the origin.</strong> Every artifact the agent makes
+carries a mark saying so, in a field nobody edits. Months later, when
+someone asks “where did this come from”, the answer is in the record,
+not in someone’s memory.</p>
+<h2>The cost</h2>
+<p>Drafts need owners. A system full of unreviewed agent output is a new
+kind of clutter, and clutter that looks like real work is worse than an
+empty folder. So the promise cuts both ways: the agent never promotes,
+and a person always either promotes or deletes. A draft older than a
+sprint with no owner gets cleaned up.</p>
+<blockquote>
+<p>
+<strong>The rule:</strong> before an agent writes anywhere shared,
+answer two questions. What is the draft state of this artifact, and who
+promotes it? If either has no answer, the agent does not write there
+yet.
+</p>
+</blockquote>
+
+</article></body></html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://linzhu1989.github.io/posts/a-404-is-not-always-an-error/">
+<title>A 404 is not always an error</title>
+<style>body{max-width:720px;margin:2rem auto;padding:0 16px;font:18px/1.6 Georgia,serif;color:#182420;background:#fbfbf9}img{max-width:100%}figcaption{color:#7f8a84;font-size:.9em}</style>
+</head><body><article>
+<h1>A 404 is not always an error</h1>
+<p>There is an internal service our test suites call to create test
+data: give it a route and a date, and it searches flights, books one,
+picks seats, and hands back a ready-to-use booking. When it fails, the
+caller gets one line and a 404, whatever went wrong. Automation retries
+three times, five seconds apart, and never reads the body. People
+staring at the test page have no idea whether to wait, change the date,
+or ask someone.</p>
+<p>I set out to make the failures say something useful. The plan sounded
+simple: when an upstream call fails, say which service failed and
+how.</p>
+<h2>The first draft</h2>
+<p>I walked the code with a coding assistant and ran the service locally
+against mocks, with a fault switch for every upstream. Thirty-six
+failure cases. The picture was bad. The processing chain returned
+<code>null</code> at every level and threw away the validator’s own
+failure message. Four catch-all layers swallowed exceptions. The final
+response was rebuilt from counters, so most real reasons never reached
+the caller.</p>
+<p>The assistant’s draft followed naturally: every upstream 404 or 5xx
+is a failure, so stop and report it.</p>
+<p>I stopped that draft. I know this service well, and I knew it was
+wrong: when flight search returns 404, that means there are no flights
+on that date, and the service is supposed to try the next one.
+Swallowing that 404 is the feature. A 404 from an external service, or
+even a 5xx, is not automatically an error. It depends on which endpoint
+said it, and sometimes on what the user asked for.</p>
+<h2>Asking the real thing</h2>
+<p>So we stopped reasoning about codes and went to look. I put a fault
+proxy between the local service and the real staging environment. It
+could break a path, drop a parameter, strip a field, or inject a 5xx, a
+reset or a timeout, and the upstream answered for real.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/status-codes/proxy.png" alt="The local service calls real staging through a fault proxy that injects wrong paths, dropped fields, 5xx, resets and timeouts. Three findings: no flights is a 200 with an empty body, not a 404; a seat-map failure produced a success; a router failure booked three extra real reservations.">
+<figcaption>
+Same service, real upstreams, faults injected one at a time. Three
+answers nobody had predicted.
+</figcaption>
+</figure>
+<p>Three things came back that neither the assistant nor I had
+predicted:</p>
+<ul>
+<li><strong>“No flights” was a 200 with an empty body,</strong> not a
+404. My own rule from memory was out of date.</li>
+<li><strong>A seat-map failure ended in a success.</strong> The booking
+came back looking fine, without the seats the test needed.</li>
+<li><strong>A routing failure booked three extra real
+reservations</strong> in the partner’s staging system before anything
+reported a problem.</li>
+</ul>
+<p>There were smaller ones too. One “not initialised” 404 only showed
+its reason if the request asked for JSON. Reading the code, or
+remembering, would never have told us which of these the service
+did.</p>
+<h2>The classification we ended up with</h2>
+<figure>
+<img src="https://linzhu1989.github.io/img/status-codes/matrix.png" alt="A matrix of endpoint by status: flight search 200-empty is normal, try the next date; a seat-map 404 skips the item; a 5xx, reset or timeout from any service stops the run and names the service and who can help; repeated item failures also stop.">
+<figcaption>
+The outcome is decided by endpoint, status and the request together, not
+by the status code alone.
+</figcaption>
+</figure>
+<p>Every upstream answer now maps to one of three outcomes, decided by
+<strong>endpoint × status × request context</strong>:</p>
+<ul>
+<li><strong>Normal.</strong> Expected answers like “no flights on this
+date”. Carry on with the next date.</li>
+<li><strong>Skip the item.</strong> One flight or one seat can’t be
+used. Skip it, count it, keep going. If the same thing keeps failing,
+stop.</li>
+<li><strong>Stop.</strong> The service itself is broken. Say which
+service and endpoint failed, and who can help.</li>
+</ul>
+<p>There is no retry of the same call inside one request. A message only
+claims to know the reason when the answer has a shape we have actually
+seen. The service’s own status codes to its callers stayed the same, so
+nothing downstream broke.</p>
+<figure>
+<img src="https://linzhu1989.github.io/medium/a-404-is-not-always-an-error/table1.png" alt="Table 1">
+</figure>
+<p>One unglamorous fix along the way: the log search tool was cutting
+values at the first space, so half our new messages were truncated.
+Quoting them fixed it.</p>
+<blockquote>
+<p>
+<strong>The rule:</strong> you can’t classify errors from status codes,
+and you can’t classify them from memory either. Put a fault proxy in
+front of the real dependency, break one thing at a time, and write down
+what each answer means for that endpoint. Then decide: normal, skip, or
+stop.
+</p>
+</blockquote>
+
+</article></body></html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://linzhu1989.github.io/posts/the-chatbot-that-became-a-tool-server/">
+<title>The chatbot that became a tool server</title>
+<style>body{max-width:720px;margin:2rem auto;padding:0 16px;font:18px/1.6 Georgia,serif;color:#182420;background:#fbfbf9}img{max-width:100%}figcaption{color:#7f8a84;font-size:.9em}</style>
+</head><body><article>
+<h1>The chatbot that became a tool server</h1>
+<p>I own an internal service whose most-used page is a long form. People
+use it to create test data for demos, development and testing: pick a
+partner, then fill in a dozen fields that depend on what that partner
+supports. Products, currencies, languages, a handful of special cases.
+Nobody remembers all of it. I do not remember all of it, and I built the
+thing.</p>
+<p>So the loop went: someone fills the form wrong, gets an error they
+cannot read, messages the team, the team looks it up and replies, they
+try again. Half a day gone on both sides, for one row of test data.</p>
+<p>In February I added a chat panel beside the form. You pick a partner,
+then either ask for “just a random one” or describe what you need in a
+sentence, and the panel fills the form for you. Claude through the
+Bedrock API, a Spring Boot backend, a React frontend. First commit to
+third prototype: five weeks.</p>
+<h2>What I thought I was building</h2>
+<p>A chatbot. The value, I assumed, was the conversation: a friendly
+layer that turns “I need a two-passenger booking with a connecting
+flight” into fourteen field values.</p>
+<p>Two things I did early turned out to matter far more than the
+chat.</p>
+<p><strong>The model does not decide facts.</strong> From day one the
+split was: the model handles language, code handles truth. Which
+currencies does this partner support? Which products? Which fields
+become required when you pick a cruise? Those answers came from plain
+code reading the service and a cache, exposed to the model as a handful
+of functions it could ask for. No model inside those functions. The
+model’s job was only to understand what the person meant and call the
+right one.</p>
+<p>I did not have a name for this in February. I called them “tools” in
+the code because I did not know what else to call them.</p>
+<p><strong>Knowledge lives in files, not in code.</strong> Prompts,
+partner notes, field documentation, the special flows that skip the
+model entirely (a button click does not need an LLM): all YAML, loaded
+at startup, injected into the prompt with placeholders. The motive was
+hygiene. Keep the Java clean, let non-developers edit the wording.
+Nobody else ever edited it, but the shape stuck.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/chatbot-to-tools/anatomy.png" alt="Anatomy of the February chat panel: a thin chat UI on top; a stateless backend that rebuilds the prompt every turn from YAML knowledge files and calls Bedrock once; below it, plain-code tools that read the service for partner facts. The UI is the thinnest layer.">
+<figcaption>
+What the chat panel was made of. The chat itself is the thinnest layer.
+</figcaption>
+</figure>
+<p>One more accident worth admitting. I did not know, when I started,
+that the model keeps no memory between calls. I found out by watching it
+forget. The fix was to have the frontend hold the whole conversation and
+send it back every turn, and the backend rebuild the prompt from scratch
+each time. The docs later called this “stateless by design”. It was
+stateless by discovery. It also turned out to be the right call: nothing
+to persist, nothing to lose on restart, every request testable on its
+own.</p>
+<h2>What people did with it</h2>
+<p>They used it. The accuracy problems we hit were almost never the
+model. When a suggestion was wrong, the context was wrong: a partner’s
+data missing, two partners tangled in one conversation, or facts laid
+out in the prompt in a way the model misread. Good context in, good
+answer out. That pattern held for everything I built afterwards.</p>
+<h2>The pivot</h2>
+<p>In March, the ground moved. The company started rolling out coding
+assistants in the terminal. People who had been opening the web page
+were now living in a CLI with a model already in it. A chat panel inside
+a web form started to look like a second, worse chat.</p>
+<p>The obvious question: why is the knowledge locked behind my UI? The
+tools were already plain functions. The partner facts, the field rules,
+the special flows were already text. All of it could be handed to any
+assistant that spoke a common protocol.</p>
+<p>So the same service grew an MCP server. Two weeks to a proof of
+concept. The functions the chat panel had been calling became MCP tools.
+The YAML knowledge became tool descriptions and guides the assistant
+reads before acting. The chat panel stayed, untouched, as one more
+client.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/chatbot-to-tools/before-after.png" alt="Before: one chat UI is the only way into the tools and knowledge. After: the same tools and knowledge sit behind an MCP server, and the chat UI, a terminal assistant and a desktop assistant are all clients of it.">
+<figcaption>
+Same tools, same knowledge. In February one door. In March, any
+assistant that speaks MCP.
+</figcaption>
+</figure>
+<p>The hard part was not the protocol. It was that colleagues ran three
+different clients, each with its own config format, and most of them
+were new to all of it. The install had to be one command, or adoption
+would stall at the README. It became one command.</p>
+<p>Six months on, the server exposes several dozen tools, of which
+test-data creation is one domain. The agents I built afterwards, on very
+different runtimes, use it as their main way into the testing system.
+The chat panel still works. I have not checked how many people open
+it.</p>
+<h2>What this taught me</h2>
+<figure>
+<img src="https://linzhu1989.github.io/medium/the-chatbot-that-became-a-tool-server/table1.png" alt="Table 1">
+</figure>
+<p>The row that matters is the third one. The chat panel required me to
+own five things. The server required two, and they were the two I had
+built first because they were the only parts that could be tested
+without a model.</p>
+<blockquote>
+<p>
+<strong>The rule:</strong> when you build an AI feature, find the parts
+that would still be true with no model in the room: the facts, the
+rules, the actions. Build those as plain functions and plain text. The
+chat is a client. Clients come and go.
+</p>
+</blockquote>
+
+</article></body></html>

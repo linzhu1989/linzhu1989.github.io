@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://linzhu1989.github.io/posts/waiting-for-a-dead-process/">
+<title>Waiting for a dead process</title>
+<style>body{max-width:720px;margin:2rem auto;padding:0 16px;font:18px/1.6 Georgia,serif;color:#182420;background:#fbfbf9}img{max-width:100%}figcaption{color:#7f8a84;font-size:.9em}</style>
+</head><body><article>
+<h1>Waiting for a dead process</h1>
+<p>Just before one in the afternoon, my coding assistant started a long
+eval run. It would take a while, so the assistant launched it in the
+background with <code>nohup</code>, sent the output to a log file, and
+started a second loop to watch that log. When the run printed
+<code>ALL_DONE</code> at the end, the loop would wake up and the
+assistant would read the results.</p>
+<p>I went to do something else. Close to quarter to three I came back,
+saw nothing had changed, and asked the obvious question: is it actually
+still running?</p>
+<p>It wasn’t. It had never run. The launch line had the directory twice,
+something like <code>evals/evals/run.sh</code>. The shell printed “No
+such file or directory” and exited in under a second. The log had
+exactly one line in it, and it was never going to have
+<code>ALL_DONE</code>. The waiter had spent almost two hours checking a
+file that a dead process would never write to again.</p>
+<p>Nothing was lost except the afternoon. The run hadn’t started, so it
+had cost nothing. The assistant fixed the path and relaunched a minute
+later.</p>
+<h2>The wrong assumption</h2>
+<p>The waiter assumed one thing: <em>if the marker isn’t there yet, the
+job is still working.</em> That is true only while the job is alive. A
+job can end in three ways: it finishes and writes the marker, it crashes
+before writing it, or it never starts. A loop that only looks for the
+marker can tell the first case from “not yet”, and that’s all it can
+tell. The other two look exactly like “not yet”, forever.</p>
+<p>This isn’t really an agent bug. People write this loop all the time:
+<code>tail -f</code> and wait, or
+<code>until grep -q DONE log; do sleep 60; done</code>. The difference
+with an agent is that nobody is watching the terminal. When I write that
+loop myself, I notice after twenty minutes that the log hasn’t moved.
+The assistant was patient and didn’t get bored, so it kept waiting.</p>
+<h2>What a waiter has to check</h2>
+<figure>
+<img src="https://linzhu1989.github.io/img/waiter/two-waiters.png" alt="Before: the producer dies at second one, the waiter keeps polling the log for ALL_DONE from 12:47 to 14:41. After: on every poll the waiter checks the marker, then whether the process is alive, then a deadline; the dead producer is caught on the first poll.">
+<figcaption>
+Same dead job, two waiters. One asks a single question, the other asks
+three.
+</figcaption>
+</figure>
+<p>On every pass, a waiter needs to ask three things, in this order:</p>
+<ol type="1">
+<li><strong>Is the marker there?</strong> Then the job finished. Read
+the results.</li>
+<li><strong>Is the producer still alive?</strong> If not and there’s no
+marker, it died. Stop and show the last lines of the log.</li>
+<li><strong>Is it past the deadline?</strong> If it’s still alive but
+has been going much longer than it should, stop and tell a person.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># before: waits forever if the job dies</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">until</span> <span class="fu">grep</span> <span class="at">-q</span> ALL_DONE run.log<span class="kw">;</span> <span class="cf">do</span> <span class="fu">sleep</span> 60<span class="kw">;</span> <span class="cf">done</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># after: marker, then liveness, then a deadline</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nohup</span> ./run.sh <span class="op">&gt;</span> run.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">&amp;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="va">pid</span><span class="op">=</span><span class="va">$!</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="va">deadline</span><span class="op">=</span><span class="va">$((</span> <span class="va">$(</span><span class="fu">date</span> +%s<span class="va">)</span> <span class="op">+</span> <span class="dv">3</span><span class="op">*</span><span class="dv">3600</span> <span class="va">))</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="ot">! </span><span class="fu">grep</span> <span class="at">-q</span> ALL_DONE run.log<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="ot">! </span><span class="bu">kill</span> <span class="at">-0</span> <span class="st">&quot;</span><span class="va">$pid</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;run exited without ALL_DONE&quot;</span><span class="kw">;</span> <span class="fu">tail</span> <span class="at">-20</span> run.log<span class="kw">;</span> <span class="bu">exit</span> 1</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">fi</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">date</span> +%s<span class="va">)</span><span class="st">&quot;</span> <span class="ot">-gt</span> <span class="st">&quot;</span><span class="va">$deadline</span><span class="st">&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;still running after 3h, check it&quot;</span><span class="kw">;</span> <span class="bu">exit</span> 2</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">fi</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sleep</span> 60</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p><code>kill -0</code> sends no signal. It only asks whether the
+process exists. Keeping <code>$!</code> right after the launch is the
+cheap part; the waiter needs it, and you can’t get it back later. With
+this loop, the doubled directory would have been caught on the first
+poll, at one minute instead of two hours.</p>
+<p>The assistant now launches background jobs this way: record the pid
+at launch, check it on every poll, set a deadline from the expected
+duration.</p>
+<figure>
+<img src="https://linzhu1989.github.io/medium/waiting-for-a-dead-process/table1.png" alt="Table 1">
+</figure>
+<blockquote>
+<p>
+<strong>The rule:</strong> a loop that waits for a background job must
+check that the job is still alive, not only look for its end marker, and
+it needs a deadline. Waiting is the easy part. The loop has to be able
+to tell “not done yet” from “never going to finish”.
+</p>
+</blockquote>
+
+</article></body></html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://linzhu1989.github.io/posts/three-shapes-of-an-agent/">
+<title>Three shapes of an agent</title>
+<style>body{max-width:720px;margin:2rem auto;padding:0 16px;font:18px/1.6 Georgia,serif;color:#182420;background:#fbfbf9}img{max-width:100%}figcaption{color:#7f8a84;font-size:.9em}</style>
+</head><body><article>
+<h1>Three shapes of an agent</h1>
+<p>When I started building agents at work, the word meant one thing to
+me: call a model, read the answer, decide what to do next, call it
+again. Since then I have built the same kind of system three ways: a
+loop we wrote ourselves around the Bedrock API, then on Bedrock
+AgentCore, then as a Claude Code plugin. Each time the word “agent”
+meant something different, and each time the part I wrote got
+smaller.</p>
+<p>This is the short version of what changed, and what I would keep.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/three-shapes/cover.png" alt="Three shapes: a hand-written loop around a model API, a managed runtime that owns the loop, and a folder of text files loaded into an assistant the person already uses.">
+<figcaption>
+Green is what you write. It shrinks from left to right.
+</figcaption>
+</figure>
+<h2>Shape one: a loop around the model API</h2>
+<p>The first system was a handful of assistants living in Slack, each
+handling one kind of task: reading documents, drafting plans, changing
+code. Under the hood every one of them was the same thing: a stateless
+call to a Claude model through the Bedrock API, wrapped in code we wrote
+ourselves.</p>
+<p>Stateless is the important word. The model remembers nothing between
+calls, cannot run a tool, and stops whenever it stops. So the code
+around it had to supply everything else:</p>
+<ul>
+<li>a store for the conversation, so the next call knew what the last
+one said</li>
+<li>a parser that read the model’s answer and decided which tool to
+run</li>
+<li>a queue and retries, because tools fail and models time out</li>
+<li>the “are we done yet” check that ends the loop</li>
+</ul>
+<p>Six months in, most of the repository was this runtime. The tasks the
+assistants performed were a thin layer on top. It worked, and people
+used it every day, but every new capability had to pass through a
+runtime none of us had set out to build.</p>
+<h2>Shape two: a managed runtime</h2>
+<p>The second version moved the loop out of our code and onto Bedrock
+AgentCore. The managed runtime took over the parts we had written by
+hand: sessions, memory, tool calls, identity, and long-running work that
+survives a restart. What we brought was instructions, tool definitions,
+and a few opinions about when to stop and ask a person.</p>
+<p>The gain showed up in the diff first. The runtime folder shrank to
+almost nothing.</p>
+<p>What surprised me was where the effort went instead. With no loop
+left to tune, the quality of the whole system came down to two things:
+how well the instructions were written, and how honest the tool
+contracts were. A tool that said “returns the issue” but sometimes
+returned a stub used to be a plumbing bug. Now it was a bug in the
+agent’s judgement, because the agent believed it.</p>
+<p>The cost was a boundary. When something went wrong we debugged
+through AWS abstractions, and the state lived in an AWS store. You
+accept that trade when the loop is the least interesting part of what
+you are building. For us it was.</p>
+<h2>Shape three: a folder of text files</h2>
+<p>The third one I would not have predicted. An agent that helps
+engineers write tests, shipped as a Claude Code plugin, so it runs
+inside the coding assistant they already had open. No service behind it,
+no queue. A folder of markdown files with instructions, a list of MCP
+tools it may call, and a couple of scripts. The runtime is Claude Code
+on the person’s laptop. The credentials are the person’s own.</p>
+<p>That changes what “deploy” means. A new version is a version bump in
+the plugin marketplace. Permissions are whatever the user already has,
+no more. And because a person is sitting right there, the agent can stop
+and ask before every write to a shared system, which for shared systems
+is exactly the behaviour you want.</p>
+<p>It also changes what the agent cannot do. It does not run at night.
+It cannot pick up a ticket on its own. It is exactly as autonomous as a
+conversation, which is to say not at all.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/three-shapes/one-turn.png" alt="One turn through each shape. In shape one four of the seven boxes are your code. In shape two your part is a text file the runtime reads. In shape three your part is a folder the assistant reads, and the person approves each write.">
+<figcaption>
+One turn through each shape. Green boxes are yours. Click to open full
+size.
+</figcaption>
+</figure>
+<h2>Side by side</h2>
+<figure>
+<img src="https://linzhu1989.github.io/medium/three-shapes-of-an-agent/table1.png" alt="Table 1">
+</figure>
+<h2>What I keep from all three</h2>
+<p>Line them up and one thing stands out. The part I wrote got smaller
+and more like prose each time: code, then configuration, then
+instructions. The instructions and the tool contracts outlived every
+loop, and they moved between Bedrock, AgentCore and Claude Code almost
+unchanged because we had kept them as plain text.</p>
+<blockquote>
+<p>
+<strong>The rule I use now:</strong> write the agent as text first,
+choose the runtime last.
+</p>
+<ul>
+<li>
+Work that has to happen while nobody is watching, in a shared channel:
+the managed runtime.
+</li>
+<li>
+Work where a person should decide every step: put the agent where that
+person already works.
+</li>
+<li>
+A single transformation with no state worth remembering: the raw loop is
+enough.
+</li>
+</ul>
+</blockquote>
+
+</article></body></html>

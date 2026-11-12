@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://linzhu1989.github.io/posts/reuse-before-invent/">
+<title>Reuse before invent</title>
+<style>body{max-width:720px;margin:2rem auto;padding:0 16px;font:18px/1.6 Georgia,serif;color:#182420;background:#fbfbf9}img{max-width:100%}figcaption{color:#7f8a84;font-size:.9em}</style>
+</head><body><article>
+<h1>Reuse before invent</h1>
+<p>At the kickoff of the second agent I wrote down what it would need. A
+way to reach the ticketing system, the wiki and the code host. A place
+for its instructions to live. A way to release it to people. A way to
+open pull requests. Access to the team’s test-management tool and its
+coverage data. Somewhere for generated tests to land.</p>
+<p>Six items. Every one already had an owner somewhere in the company.
+The question was whether to build our own version of each, cleanly
+scoped to the new product, or to move in with the existing one and
+follow its rules.</p>
+<p>We moved in, six times. The agent shipped in nine weeks. I do not
+think it would have shipped in twenty the other way.</p>
+<h2>The peer looks cleaner on the whiteboard</h2>
+<p>The tempting architecture for a new product is a peer: its own
+integration layer, its own repo, its own release pipeline, drawn as a
+tidy column next to the existing ones. Every box is under your control.
+Nothing you do can break anyone else.</p>
+<p>Every box is also a system you now run. It needs credentials,
+monitoring, someone to answer when it breaks, a migration when the thing
+under it moves. And the second column duplicates the first, so every
+improvement to one has to be made twice or not at all.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/reuse/peer-vs-tenant.png" alt="Left: a new product drawn as a peer, with its own column of six boxes duplicating the existing gateway, skills repo, release pipeline, PR tooling, test-tool integration and automation repos. Right: the same product as a tenant, a thin box of instructions plugged into the six existing systems. What the tenant owns is a folder of text.">
+<figcaption>
+A peer owns six systems. A tenant owns a folder of text and plugs into
+six that already run.
+</figcaption>
+</figure>
+<h2>Six times a tenant</h2>
+<figure>
+<img src="https://linzhu1989.github.io/medium/reuse-before-invent/table1.png" alt="Table 1">
+</figure>
+<p>The fourth row is my favourite. Creating a pull request from an agent
+sounds small and is not: branch naming, remote detection, reviewer
+lookup, secret scanning, the manual fallback when the API refuses. The
+plugin already had a skill that did all of it. We told our agent to call
+it. That was the whole implementation.</p>
+<p>The second row had a bonus. Because the skills lived in the shared
+repo, a second agent product on a different runtime could read the same
+files. We proved it with a planted canary: one sentence added to a
+skill, visible in both products the next day. Reuse was not a slide. It
+was a diff.</p>
+<h2>What being a tenant costs</h2>
+<p>Tenants follow house rules, and the rules are not yours.</p>
+<p>A skill change was two merge requests: one in the shared repo, one to
+sync the copy into the plugin, then a release. Our scripts had to run on
+the oldest Python the host promised, which was older than the one on my
+laptop, and we found that out on release night. Names had to follow the
+host’s conventions. Release cadence was the host’s. When the marketplace
+moved to a new home this month, we moved with it and told our users to
+reinstall.</p>
+<p>None of that is a complaint. It is the rent. The alternative is
+owning all six systems, and every one of those costs is small next to
+running a gateway.</p>
+<h2>What it bought</h2>
+<p>Nine weeks from the first ticket to a release other teams could
+install. A team of two. Almost no infrastructure of our own to be paged
+for.</p>
+<p>And one thing I did not expect: because everything we owned was text,
+the agent moved between homes almost untouched. When the plugin changed
+marketplaces, the instructions did not change. The users got four lines
+to run. Owning less turned out to be the same thing as being
+portable.</p>
+<h2>When to invent anyway</h2>
+<p>Reuse is a default, not a law. Three situations have made me build
+instead.</p>
+<p>The owner says no, or cannot say yes fast enough. A dependency you
+cannot change on your timeline is a dependency you will route around
+eventually; better to decide that on purpose.</p>
+<p>Your usage would hurt the host. A nightly job hammering a gateway
+sized for interactive use is not reuse, it is a denial of service with
+good intentions.</p>
+<p>The abstraction fights you three times. We had one bug appear three
+times in two months, each time looking unrelated, before someone named
+it: a fallback path in a shared component that was quietly the wrong
+shape for our case. The fix was to fix the fallback once, upstream, not
+to add a fourth special case downstream. Sometimes that fix is not
+possible, and then you build your own. But count to three first.</p>
+<blockquote>
+<p>
+<strong>The rule:</strong> for every box on the new product’s diagram,
+ask who already runs one. Move in, follow the house rules, and write
+only the text that makes it yours. Build a peer only when the owner says
+no, your load would hurt them, or the abstraction has fought you three
+times.
+</p>
+</blockquote>
+
+</article></body></html>

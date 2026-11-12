@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://linzhu1989.github.io/posts/the-agent-stopped-and-asked/">
+<title>The agent stopped and asked</title>
+<style>body{max-width:720px;margin:2rem auto;padding:0 16px;font:18px/1.6 Georgia,serif;color:#182420;background:#fbfbf9}img{max-width:100%}figcaption{color:#7f8a84;font-size:.9em}</style>
+</head><body><article>
+<h1>The agent stopped and asked</h1>
+<p>I was trying out a new batch mode for an agent skill that tests
+marketing emails end to end. For each case it books a real reservation
+in a staging system, seeds a few customer signals, triggers the email,
+waits, and then checks what landed in a mailbox. The single-case version
+had been working for a while. Batch mode read a spreadsheet of cases, 72
+rows of which 48 had a mapping, and I limited the first run to two.</p>
+<p>The first turn went well. The agent showed a scope summary: 2 rows of
+72, 48 mapped, 24 skipped with reasons, which mailbox it would use,
+which tools were present. Then it waited. I said go.</p>
+<p>It ran the preflight, created the batch folders, mapped the two rows
+and picked the email copy. Then, before creating the first reservation,
+it stopped:</p>
+<blockquote>
+<p>The batch inputs default <code>language</code> to empty, but every
+earlier successful single run of these cases booked with
+<code>es</code>. Creating a reservation and triggering the email can’t
+be repeated safely. Which language should I use?</p>
+</blockquote>
+<p>I answered “es for both rows”. The run finished, two reservations,
+two emails, a summary. A good outcome, and I almost moved on.</p>
+<h2>The wrong assumption</h2>
+<p>I had treated “go” as approval for the whole run. The summary was the
+gate, I said yes, so everything after that was covered.</p>
+<p>But the summary didn’t show the language. Nobody had asked for it, so
+it wasn’t on the screen, so my “go” approved a run with a blank in it.
+The agent caught the blank, which is to its credit. It caught it in the
+middle of the run, after four setup steps, at the last moment before the
+first step that can’t be undone. If it had been a little less careful,
+it would have booked two reservations in the wrong language and sent two
+emails nobody could unsend.</p>
+<p>The agent being careful at the edge is a nice extra. It can’t be the
+design.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/ask-first/step-chain.png" alt="The batch run as a chain of steps. The early steps (preflight, folders, map rows, pick copy) can be repeated. Creating the reservation and triggering the email cannot. The agent asked just before the first one that can't be repeated; the question belongs on the scope summary, before go.">
+<figcaption>
+It asked at the last safe moment. The right moment was earlier, on the
+summary.
+</figcaption>
+</figure>
+<h2>A second, smaller confession</h2>
+<p>In the same run the agent reported something about itself. Before
+producing the scope summary, it had run <code>head</code> on the
+spreadsheet to have a look. The design said only a script reads the
+user’s input file; the agent reads what the script computed.</p>
+<p>It sounds pedantic. It isn’t. The counts on the summary (72, 48, 24,
+2) are what I approve. If the agent forms its own impression of the file
+first, the summary becomes a mix of what the script computed and what
+the agent guessed from the first ten lines. I want the thing I say yes
+to to come from one place.</p>
+<h2>What we changed</h2>
+<p>Two lines in the skill’s instructions, each from one of those
+moments.</p>
+<p><strong>Settle every input an irreversible step needs before the
+summary.</strong> <code>language</code> is now one of the batch inputs.
+The agent either gets it from the request or derives it from earlier
+successful runs of the same cases, and it shows the value on the scope
+summary. If it can’t decide, it asks there, before go, with nothing yet
+done.</p>
+<p><strong>A script reads the user’s input files, never the
+agent.</strong> The plan step is the only read of the spreadsheet. The
+agent talks about what the plan returned.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/ask-first/scope-summary.png" alt="Before: the scope summary listed rows, mapping, skipped rows, the mailbox and tools, but not the language, so go approved a run with a blank in it. After: the summary also shows language es and where it came from, and the counts come from the plan script, so go covers everything the irreversible steps will use.">
+<figcaption>
+Same summary, one more line. Now “go” means what I think it means.
+</figcaption>
+</figure>
+<figure>
+<img src="https://linzhu1989.github.io/medium/the-agent-stopped-and-asked/table1.png" alt="Table 1">
+</figure>
+<h2>Where the ask goes</h2>
+<p>Every agent that does real things has a few steps that can’t be taken
+back. Here they were “create a reservation” and “trigger the email”.
+Everything before them can be rerun for free. Everything after them
+depends on them.</p>
+<p>So I now read a new skill backwards. Find the steps that can’t be
+repeated, list every input they use, and check that each one is on the
+screen at the moment the human says yes. If one isn’t, that’s where a
+question belongs, and it belongs on the summary, not at the edge.</p>
+<p>The whole try-out cost $7.02 over four turns. The turn where the
+agent stopped cost about a dollar. The two lines it produced will be
+read by every batch run after it.</p>
+<blockquote>
+<p>
+<strong>The rule:</strong> put the agent’s questions before the steps
+that can’t be undone, and make the approval summary show every input
+those steps will use. An agent that stops at the last safe moment did
+well. A design that relies on that has a gap.
+</p>
+</blockquote>
+
+</article></body></html>

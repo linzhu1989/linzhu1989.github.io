@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://linzhu1989.github.io/posts/one-hundred-percent-on-purpose/">
+<title>One hundred percent, on purpose</title>
+<style>body{max-width:720px;margin:2rem auto;padding:0 16px;font:18px/1.6 Georgia,serif;color:#182420;background:#fbfbf9}img{max-width:100%}figcaption{color:#7f8a84;font-size:.9em}</style>
+</head><body><article>
+<h1>One hundred percent, on purpose</h1>
+<p>The service is old by our standards: Java, a few thousand tests, a
+static-analysis gate on every pull request. The gate’s technical
+threshold is modest. The bar we actually hold is not: every change
+brings the coverage of the lines it touched to 100%, and adds no new
+findings. Not “high”. Not “improved”. All of it, every time.</p>
+<p>I used to think this kind of rule was for teams that had run out of
+real problems. This year I changed my mind, because of who started
+writing the code.</p>
+<h2>Why the number matters now</h2>
+<p>When a person writes a change, a reviewer can ask them what they were
+thinking. When an AI assistant writes it, there is no one to ask. The
+code looks fine. It usually is fine. The only thing that tells you
+whether the branch you did not think about is handled is a test that
+walks through it.</p>
+<p>A 100% bar on new code turns “did the assistant handle the error
+path?” from a judgement call into a line in a report. Either the error
+path has a test or the gate is red. The number is not about quality in
+the abstract. It is the cheapest available substitute for asking the
+author a question.</p>
+<h2>One pull request</h2>
+<p>A small change: a hardcoded string became a constant, a branch was
+tightened. First scan: new-code coverage 37.7%, one new finding. The
+finding was trivial. The coverage was the interesting part. The change
+had touched eight branches, and the existing tests, all few thousand of
+them, walked through three.</p>
+<p>The missing five were the usual suspects. An error path when a
+downstream call fails. A null branch when an optional field is absent. A
+default value when a parameter is not provided. Two boundary conditions.
+Nobody had written tests for them because nobody had ever thought about
+them; they were the branches you write without noticing.</p>
+<p>Twelve small tests later, each one aimed at exactly one of those
+branches, the report read 100%, zero findings, and the gate went green.
+About an hour of work. Every one of those twelve tests exercises a path
+that had been in production for years untested.</p>
+<figure>
+<img src="https://linzhu1989.github.io/img/hundred-percent/loop.png" alt="The loop: run the tests locally with coverage, read the report for the changed methods, write a test for each uncovered branch, push, wait for the scan, poll the gate until it is green. Below, one pull request's coverage bar going from 37.7 percent with five uncovered branches to 100 percent after twelve targeted tests.">
+<figcaption>
+The loop, and one pull request travelling through it. The branches on
+the right are the ones nobody had thought about.
+</figcaption>
+</figure>
+<h2>The loop</h2>
+<p>The rule only works if checking it is cheap, so the loop is fixed and
+boring. Run the suite locally with coverage. Open the report for the
+methods you changed and list every line with zero hits. Write one test
+per uncovered branch, named for the branch. Push. Wait for the scan.
+Poll the gate once a minute until it says green. Only then ask for
+review.</p>
+<p>Waiting for the pipeline to tell you what the local report already
+knew is the one step people skip, and it is the step that turns the rule
+into a habit rather than a fight with the gate.</p>
+<h2>What it costs and what it buys</h2>
+<figure>
+<img src="https://linzhu1989.github.io/medium/one-hundred-percent-on-purpose/table1.png" alt="Table 1">
+</figure>
+<p>The last row is the quiet win. A 100% bar on new code slowly
+backfills an old service, one touched method at a time, without anyone
+scheduling a “coverage project”.</p>
+<blockquote>
+<p>
+<strong>The rule:</strong> on shared code that assistants write into,
+hold new-code coverage at 100% and new findings at zero, and make the
+loop for checking it boring enough to run every time. The number is not
+perfectionism. It is how you ask a question of an author who is not
+there.
+</p>
+</blockquote>
+
+</article></body></html>
